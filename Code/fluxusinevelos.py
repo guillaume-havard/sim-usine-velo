@@ -47,12 +47,14 @@ class NoeudReceptionCamion(Noeud):
         Mise à jour du noeud.
         """
         self.evacuation()
+# Fin de la classe NoeudReceptionCamion
+
                 
 class NoeudUsineCadre(Noeud):
     """
     
     """
-            
+        
     def putMatNew(self):
         """
         Envoie un nouveau materiel.
@@ -76,7 +78,7 @@ class NoeudUsineCadre(Noeud):
             self.TRAITEMENT_TERMINE = False
             
     def traitement(self):
-        """ Traitement du materiel par le noeud. """
+        """ Traitement du materiel par le noeud. """                         
         # Si le noeud marche et n'as pas termine de traitement, on procede.
         if self.getEtat() == "MARCHE" and not self.TRAITEMENT_TERMINE:
             if self.EN_TRAITEMENT: # on continu un traitement deja amorce
@@ -89,10 +91,9 @@ class NoeudUsineCadre(Noeud):
             else: # on est pas en traitement, on essai d'en demarrer un.                         
                 self.EN_TRAITEMENT = True
                 self.JUST_STARTED = True                 
-        
 # Fin de la classe NoeudUsineCadre    
+
         
-# Fin de la classe NoeudReceptionCamion
 class NoeudEnvoiCamion(Noeud):
     """
     Noeud qui fait une action quand la quantité sur les arêtes entrantes atteignent un certains niveau.

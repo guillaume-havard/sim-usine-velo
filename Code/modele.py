@@ -22,8 +22,12 @@ class Modele(object):
         self.lesHoraires = []        
         
         # Horraire usine
-        h = Journee(self.mom, 1, "hUsine")
+        h = JourneePanne(self.mom, 1, "hUsine")
         h.initTag((8, 11, 13, 16), False)
+        h.setPannes(0.003333333,
+                    (1, 2, 5, 7, 8, 8, 9, 10, 10, 11,
+                     12, 12, 12, 12, 13, 13, 14, 15, 15, 15,
+                     17))
         self.lesHoraires.append(h)
         hUsine = h
         # Horraire Assemblage

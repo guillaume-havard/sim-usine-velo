@@ -54,8 +54,8 @@ class Noeud(object):
         if self.h:
             if not self.h.isActif:
                 self.etat = "ARRET"
-                if self.h.isBris:
-                    self.etat = "BRIS"
+            if self.h.isBris:
+                self.etat = "BRIS"
         return self.etat
     
     def getCol(self):

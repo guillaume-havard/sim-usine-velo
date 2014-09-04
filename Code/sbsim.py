@@ -9,6 +9,7 @@
 
 import math
 import decimal
+import gen
 
 class Moment(object):
     """ Definit et gere l'etat des variables temporelles 
@@ -151,6 +152,41 @@ class Journee(Horaire):
         #print "Horaire",self.nom,self.id,self.isActif
 # fin de la classe Journee
 
+class JourneePanne(Journee):
+    """ Classe Journee avec gestion des pannes ajoutee pour l'usine de 
+        cadre """
+            
+    gen01 = gen.GenU01MRG() # generateur de nombre aleatoire pour l'usine
+    
+    def setPannes(self, seuil, durees):
+        """ Set la variable de declenchement de pannes et les durees des 
+            pannes.
+            Obligatoire pour l'update"""
+        self.seuilBris = seuil # Valeur pour le declenchement d'une pann
+        self.dureeBris = durees # duree des pannes.
+    
+    def update(self):
+        Journee.update(self)
+        
+        # L'update est appele une fois par minute
+        # Test si pas de bris.
+        if self.isActif and not self.isBris:
+            if self.gen01.suiv() <= self.seuilBris:
+                print("BRIS BRIS")
+                self.isBris = True
+                self.dureeBrisSelect = self.dureeBris[int(self.gen01.suiv() * 
+                                                      (len(self.dureeBris)-1))]
+                print("reparation {}".format(self.dureeBrisSelect))
+                return
+                
+        # Si bris, reparation (meme si usine fermee)
+        if self.isBris:
+            self.dureeBrisSelect -= 1            
+            if self.dureeBrisSelect <= 0:
+               self.isBris = False
+               print("FIN")
+            return        
+# fin de la classe JourneePanne
 
 class Semaine(Horaire):
     """ Une semaine comme assemblage de 7 instances de Journee. """
