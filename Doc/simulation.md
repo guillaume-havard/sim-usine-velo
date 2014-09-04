@@ -206,5 +206,67 @@ de production. Une autre alternative, toujours dans le but de maximiser la
 production aurait pu être de décupler le nombre de chaines ou d’arrivées
 de kits. 
 
+Étude stochastique
+------------------
+**Données supplémentaires**
+J'ajoute des informations supplémentaire sur l'usine de cadre pour avoir
+des résultats plus proches de la réalité lors des simulations.
+Avec les horaires actuelles l'usine de cadre tombe en panne en moyenne 1,2
+fois par jour. Il a aussi donné une liste de 21 durées de bris (en minutes).
 
+
+**Application pour notre simulation**  
+*Données*  
+L'usine est ouverte 6 heures par jour et elle brise 1,2 fois par jour. 
+Elle brise donc 1,2 fois pour 6 ∗ 60 = 21600 minutes.
+On a donc une probabilité 1,2/360=0,003333333 de bris par seconde.
+
+*Modèle*  
+Pour simuler le début d'un bruit, je vais simplement tester pour chaque
+minute ou la machine est allumée, si une panne est arrivée. Pour cela
+j'utilise un générateur de nombre pseudo aléatoire (gen.GenU01MRG) qui donne
+un résultat entre 0 et 1. Si ce nombre est supérieur à 0,003333333 la machine
+fonctionne bien, si le nombre est inférieur une panne est déclenchée.
+
+Pour chaque panne il faut déterminer le temps du bris, pour cela je
+prend aléatoirement une durée de notre échantillon de durées de bris.
+On considère que le technicien en charge de la réparation des machines 
+travaille même si l'usine d'assemblage est finie. Pour vérifier que la
+répartition des bris est efficace j'ai fait une simulation sur 61 jours,
+j'obtiens :  
+Total bris : 76.0 en 61 jours.  
+Ratio = 1.24590163934
+
+**Réponses au questions**  
+*Hypothèse 1*  
+On fixe la vitesse d'assemblage au maximum possible et on cherche la taille
+de la chaine en conséquence, on avait :
+
+* vitesse d'assemblage = 114 secondes
+* taille de la chaine sans stochastique : 631
+
+La première observation que nous pouvons faire c'est que l'arrivé des kits ne
+souffrira jamais de retard, on aura donc inévitablement un nombre de kits
+supérieur à celui de cadre, si on continue avec nos hypothèses de départ sur
+un temps infini il nous faudra un entrepôt de kits de taille infini.
+Il faudra donc ouvrir l'usine plus longtemps de temps en temps ou demander à
+notre fournisseur de ne pas livrer de kits quand nous en auront trop.
+
+La taille de la chaine sera moins importante quand l'usine fonctionne bien
+car il y a moins de cadres qui arrivent.
+
+En simulant sur 20 jours je trouve une taille de chaine d'environ 
+**475 places**.
+Je trouve aussi une taille maximum pour l'entrepôt de **577 kits**
+
+ *Hypothèse 2*  
+On fixe la taille de la chaine et on regarde la vitesse d'assemblage qu'il
+faut, on avait :
+
+* vitesse d'assemblage = 37 secondes
+* taille de la chaine sans stochastique : 88
+
+Toujours avec 20 jours de tests j'ai trouvé une période d'assemblage de 
+**37 secondes**, cela n'a donc pas d'influence sur nos résultats précédents.
+On aura besoin d'une taille d'entrepôt de kit de **371 places**. 
 
